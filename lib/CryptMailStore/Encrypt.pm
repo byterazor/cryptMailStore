@@ -7,6 +7,8 @@ use Data::Dumper;
 use Mail::GnuPG;
 use MIME::Parser;
 use Term::ProgressBar;
+use DateTime;
+use DateTime::Format::Mail;
 
 option 'sign' => (
   is          => 'rw',
@@ -14,6 +16,17 @@ option 'sign' => (
   documentation => "also sign each message"
 );
 
+option 'days' => (
+  is          => 'rw',
+  isa         => 'Int',
+  documentation => "only process messages up to this number of days"
+);
+
+option 'unseen' => (
+  is          => 'rw',
+  isa         => 'bool',
+  documentation => "only process unseen messages"
+);
 
 sub run {
       my ($self) = @_;
@@ -52,7 +65,33 @@ sub run {
 
     $imap->login or die('Login failed: ' . $imap->last_error);
     $imap->select($self->mailbox)or die('Mailbox selection failed: ' . $imap->last_error);
-    my $messages = $imap->search('ALL');
+
+    my $messages;
+
+    if ($self->days && $self->unseen)
+    {
+      my $dt=DateTime->now;
+      my $days=$self->days*-1;
+      $dt->add(days=>$days);
+      my $date = $dt->day . "-" . $dt->month_abbr . $dt->year;
+      $messages = $imap->search('UNSEEN SINCE ' . $date) or die($imap->last_error);
+    }
+    elsif($self->days)
+    {
+        my $dt=DateTime->now;
+        my $days=$self->days*-1;
+        $dt->add(days=>$days);
+        my $date = $dt->day . "-" . $dt->month_abbr . $dt->year;
+        $messages = $imap->search('SINCE ' . $date) or die($imap->last_error);
+    }
+    elsif($self->unseen)
+    {
+      $messages = $imap->search('UNSEEN');
+    }
+    else
+    {
+      $messages = $imap->search('ALL');
+    }
     my @msgs=@{$messages};
     my $nr=@msgs;
     print "Nr of messages: " .$nr . "\n\n";
