@@ -8,7 +8,6 @@ use Mail::GnuPG;
 use MIME::Parser;
 use Term::ProgressBar;
 use DateTime;
-use DateTime::Format::Mail;
 
 option 'sign' => (
   is          => 'rw',
@@ -24,7 +23,7 @@ option 'days' => (
 
 option 'unseen' => (
   is          => 'rw',
-  isa         => 'bool',
+  isa         => 'Bool',
   documentation => "only process unseen messages"
 );
 
