@@ -42,7 +42,7 @@ cpan -i DateTime
 
 ## Example Usage
 ```bash
- git clone git@github.com:byterazor/cryptMailStore.git
+ git clone https://github.com/byterazor/cryptMailStore.git
  cd cryptMailStore
  ./cryptMailStore encrypt -server imap.server.de -user username -mailbox INBOX -ssl -sign -unseen --keyid dmeyer@federationhq.de
 ```
