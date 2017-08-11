@@ -6,7 +6,7 @@ cryptMailStore
 
 Programm allows the enryption of email in imap mailboxes with GPG.
 
-Its similar to the https://github.com/n0g/arcane project bit is written in Perl.
+Its similar to the https://github.com/n0g/arcane project but is written in Perl.
 
 The reason for this project is, I like Perl more than Python and the arcane project did not create PGP encrypted emails which are readable by the android email program r2mail2. cryptMailStore creates pgp mime encrypted and signed messages readable by r2mail2.
 
