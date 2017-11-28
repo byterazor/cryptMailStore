@@ -9,6 +9,12 @@ use MIME::Parser;
 use Term::ProgressBar;
 use DateTime;
 
+=head1 NAME
+
+CryptMailStore::Encrypt - Class for the encrypt command of CryptMailStore
+
+=cut
+
 option 'sign' => (
   is          => 'rw',
   isa         => 'Bool',
